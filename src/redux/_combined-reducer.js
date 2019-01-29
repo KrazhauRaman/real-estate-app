@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import bookmakrsReducer from './bookmarks-reducer';
-import mainReducer from './main-reducer';
+import bookmakrs from './bookmarks-reducer';
+import main from './main-reducer';
 
 export default combineReducers({
-  bookmakrsReducer,
-  mainReducer,
+  bookmakrs,
+  main,
 });
