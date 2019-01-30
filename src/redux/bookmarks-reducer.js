@@ -1,28 +1,32 @@
-// import { ADD_TODO } from './_action-types';
+import {
+  ADD_BOOKMARK,
+  REMOVE_BOOKMARK,
+} from './_action-types';
 
-// const initialState = {
-//   allIds: [],
-//   byIds: {},
-// };
+const initialState = {
+  bookmarks: [],
+};
 
-// export default function (state = initialState, action) {
-//   switch (action.type) {
-//     case ADD_TODO: {
-//       const { id, content } = action.payload;
-//       return {
-//         ...state,
-//         allIds: [...state.allIds, id],
-//         byIds: {
-//           ...state.byIds,
-//           [id]: {
-//             content,
-//             completed: false,
-//           },
-//         },
-//       };
-//     }
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case ADD_BOOKMARK: {
+      const newBookmarksArr = [...state.bookmarks];
+      newBookmarksArr.push(action.data);
+      return {
+        ...state,
+        bookmarks: newBookmarksArr,
+      };
+    }
 
-//     default:
-//       return state;
-//   }
-// }
+    case REMOVE_BOOKMARK: {
+      const newBookmarksArr = state.bookmarks.filter(bookmark => bookmark.id !== action.data);
+      return {
+        ...state,
+        bookmarks: newBookmarksArr,
+      };
+    }
+
+    default:
+      return state;
+  }
+}

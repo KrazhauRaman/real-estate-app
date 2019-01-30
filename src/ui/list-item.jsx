@@ -2,9 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-export const ListItem = ({ title, summary, thumbUrl }) => (
+export const ListItem = ({
+  title,
+  summary,
+  thumbUrl,
+  id,
+}) => (
   <div>
-    <Link to="/flat-page">
+    <Link to={`/flat-page/${id}`}>
       <img src={thumbUrl} alt={title} />
       {title}
       {summary}
@@ -16,6 +21,7 @@ ListItem.propTypes = {
   title: PropTypes.string.isRequired,
   summary: PropTypes.string,
   thumbUrl: PropTypes.string,
+  id: PropTypes.number.isRequired,
 };
 
 

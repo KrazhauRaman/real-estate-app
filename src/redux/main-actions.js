@@ -39,7 +39,7 @@ export const setLocation = location => ({
   data: location,
 });
 
-export const getFlats = newPageLoadingCallback => function (dispatch, getState) {
+export const getFlats = newPageLoadingCallback => (dispatch, getState) => {
   const { location, flatsQuantity, currentPage } = getState().main;
   return getListOfFlats(flatsQuantity, location, currentPage)
     .then(res => res.json())

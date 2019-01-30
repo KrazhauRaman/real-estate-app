@@ -16,7 +16,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={Main} />
         <Route exact path="/bookmarks" component={Bookmarks} />
-        <Route exact path="/flat-page" component={FlatPage} />
+        <Route exact path="/flat-page/:id" component={FlatPage} />
       </Switch>
     </HashRouter>
   </Provider>,

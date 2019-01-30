@@ -108,7 +108,6 @@ class Main extends PureComponent {
     const { setLocationAction } = this.props;
     const { flatsLocation } = this.state;
     setLocationAction(flatsLocation);
-    // this.getFlatsList();
     this.pageSwitchHandler(1);
   }
 
@@ -118,9 +117,9 @@ class Main extends PureComponent {
     const listOfAvailableFlats = [];
 
     flatsList.forEach((flat, index) => {
-      const { title, summary, thumb_url } = flat;
+      const { title, summary, thumb_url, id } = flat;
       listOfAvailableFlats.push(
-        <ListItem title={title} summary={summary} thumbUrl={thumb_url} key={String(index)} />,
+        <ListItem title={title} summary={summary} thumbUrl={thumb_url} key={String(index)} id={id} />,
       );
     });
 
@@ -139,11 +138,13 @@ class Main extends PureComponent {
           onChange={this.changeLocation}
           value={flatsLocation}
           onKeyPress={this.enterKeyPressHandler}
+          disabled={isLoading}
         />
         <Button
           title=""
           icon="---search"
           onClick={this.locationSelectHandler}
+          disabled={isLoading}
         />
         <Link to="/bookmarks">
           <Button title="Bookmarks" />
@@ -172,7 +173,7 @@ class Main extends PureComponent {
 }
 
 
-const getDataFromStore = store => ({
+const mapStateToProps = store => ({
   flatsList: store.main.flats,
   maxPages: store.main.maxPages,
   isLoading: store.main.isLoading,
@@ -182,7 +183,7 @@ const getDataFromStore = store => ({
 });
 
 
-const setDataToStore = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   getFlatsAction: callback => dispatch(getFlats(callback)),
   toggleLoadingAction: () => dispatch(toggleLoading()),
   setCurrentPageAction: page => dispatch(setCurrentPage(page)),
@@ -191,7 +192,7 @@ const setDataToStore = dispatch => ({
 });
 
 
-export default connect(getDataFromStore, setDataToStore)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 
 Main.propTypes = {

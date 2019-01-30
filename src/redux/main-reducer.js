@@ -21,9 +21,9 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_FLATS: {
-      const flatsArray = action.data;
+      const flatsArray = [...action.data];
       flatsArray.forEach((element, index) => {
-        element.id = index;
+        element.id = Number(String(Date.now()) + String(index));
       });
       return {
         ...state,
