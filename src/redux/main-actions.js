@@ -1,6 +1,11 @@
 /* eslint-disable func-names */
 import {
-  SET_FLATS, SET_PAGES, TOGGLE_LOADING, SET_CURRENT_PAGE, SET_FLATS_QUANTITY, SET_LOCATION,
+  SET_FLATS,
+  SET_PAGES,
+  TOGGLE_LOADING,
+  SET_CURRENT_PAGE,
+  SET_FLATS_QUANTITY,
+  SET_LOCATION,
 } from './_action-types';
 import { getListOfFlats } from '../server-requests/get-data';
 
@@ -34,23 +39,18 @@ export const setLocation = location => ({
   data: location,
 });
 
-export const getFlats = (quantity, city, page, newPageLoadingCallback) => function (dispatch) {
-  return getListOfFlats(quantity, city, page)
-    .then(
-      res => res.json(),
-    )
-    .then(
-      (res) => {
-        dispatch(setFlats(res.response.listings));
-        if (quantity === 50) {
-          dispatch(setPagesQuantity(res.response.total_pages));
-        } else {
-          newPageLoadingCallback();
-        }
-        dispatch(toggleLoading());
-      },
-    )
-    .catch(
-      err => console.log(err),
-    );
+export const getFlats = newPageLoadingCallback => function (dispatch, getState) {
+  const { location, flatsQuantity, currentPage } = getState().main;
+  return getListOfFlats(flatsQuantity, location, currentPage)
+    .then(res => res.json())
+    .then((res) => {
+      dispatch(setFlats(res.response.listings));
+      if (flatsQuantity === 50) {
+        dispatch(setPagesQuantity(res.response.total_pages));
+      } else {
+        newPageLoadingCallback();
+      }
+      dispatch(toggleLoading());
+    })
+    .catch(err => console.log(err));
 };

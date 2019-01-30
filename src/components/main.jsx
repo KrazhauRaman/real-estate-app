@@ -14,7 +14,11 @@ import { Search } from '../ui/search';
 import { ListItem } from '../ui/list-item';
 import { Pagination } from '../ui/pagination';
 import {
-  getFlats, toggleLoading, setCurrentPage, setFlatsQuantity, setLocation,
+  getFlats,
+  toggleLoading,
+  setCurrentPage,
+  setFlatsQuantity,
+  setLocation,
 } from '../redux/main-actions';
 
 class Main extends PureComponent {
@@ -29,15 +33,15 @@ class Main extends PureComponent {
       maxPages: 0,
       isThereFlats: false,
     };
-    this.GetFlatsList = this.GetFlatsList.bind(this);
-    this.GetMoreFlats = this.GetMoreFlats.bind(this);
-    this.ChangeLocation = this.ChangeLocation.bind(this);
-    this.EnterKeyPressHandler = this.EnterKeyPressHandler.bind(this);
-    this.PageSwitchHandler = this.PageSwitchHandler.bind(this);
+    this.getFlatsList = this.getFlatsList.bind(this);
+    this.getMoreFlats = this.getMoreFlats.bind(this);
+    this.changeLocation = this.changeLocation.bind(this);
+    this.enterKeyPressHandler = this.enterKeyPressHandler.bind(this);
+    this.pageSwitchHandler = this.pageSwitchHandler.bind(this);
+    this.locationSelectHandler = this.locationSelectHandler.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps);
     return {
       ...prevState,
       flatsList: nextProps.flatsList,
@@ -46,36 +50,36 @@ class Main extends PureComponent {
       isThereFlats: (nextProps.flatsList.length > 0),
       currentPage: nextProps.currentPage,
       flatsQuantity: nextProps.flatsQuantity,
-      // flatsLocation: nextProps.location,
     };
   }
 
-  GetFlatsList() {
-    const { flatsQuantity, flatsLocation, currentPage } = this.state;
+
+  // получение списка квартир в выбранном городе, данные для запроса берутся в сторе
+  // если есть переключение на новую страницу, то после загрузки страница скроллится наверх
+  getFlatsList() {
     const { getFlatsAction, toggleLoadingAction } = this.props;
     toggleLoadingAction();
-    getFlatsAction(flatsQuantity, flatsLocation, currentPage, this.ScrollToTop);
+    getFlatsAction(this.scrollToTop);
   }
 
-  ScrollToTop() {
-    window.scrollTo(0, 0);
-  }
 
-  GetMoreFlats() {
+  getMoreFlats() {
     const { setFlatsQuantityAction } = this.props;
     setFlatsQuantityAction(50);
 
     this.setState({
       flatsQuantity: 50,
     }, function () {
-      this.GetFlatsList();
+      this.getFlatsList();
     });
-    // const { setFlatsQuantityAction } = this.props;
-    // setFlatsQuantityAction(50);
-    // this.GetFlatsList();
   }
 
-  PageSwitchHandler(newPage) {
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
+  // обработка действий пользователя
+  pageSwitchHandler(newPage) {
     const { setCurrentPageAction, setFlatsQuantityAction } = this.props;
     setCurrentPageAction(newPage);
     setFlatsQuantityAction(20);
@@ -84,31 +88,32 @@ class Main extends PureComponent {
       currentPage: newPage,
       flatsQuantity: 20,
     }, function () {
-      this.GetFlatsList();
+      this.getFlatsList();
     });
-
-    // const { setCurrentPageAction, setFlatsQuantityAction } = this.props;
-    // setCurrentPageAction(newPage);
-    // setFlatsQuantityAction(20);
-    // this.GetFlatsList();
   }
 
-  ChangeLocation(e) {
+  changeLocation(e) {
     this.setState({
       flatsLocation: e.currentTarget.value,
     });
   }
 
-  EnterKeyPressHandler(e) {
-    const { setLocationAction } = this.props;
-    const { flatsLocation } = this.state;
+  enterKeyPressHandler(e) {
     if (e.key === 'Enter') {
-      setLocationAction(flatsLocation);
-      this.GetFlatsList();
+      this.locationSelectHandler();
     }
   }
 
-  GenerateListOfAvailableFlats() {
+  locationSelectHandler() {
+    const { setLocationAction } = this.props;
+    const { flatsLocation } = this.state;
+    setLocationAction(flatsLocation);
+    // this.getFlatsList();
+    this.pageSwitchHandler(1);
+  }
+
+  // создание списка квартир на основе полученных данных
+  generateListOfAvailableFlats() {
     const { flatsList } = this.state;
     const listOfAvailableFlats = [];
 
@@ -127,25 +132,24 @@ class Main extends PureComponent {
     const {
       isLoading, flatsLocation, flatsQuantity, maxPages, currentPage, isThereFlats,
     } = this.state;
-    // console.log(this.state);
     return (
       <div className="App">
         <Search
           placeholder="Find city..."
-          onChange={this.ChangeLocation}
+          onChange={this.changeLocation}
           value={flatsLocation}
-          onKeyPress={this.EnterKeyPressHandler}
+          onKeyPress={this.enterKeyPressHandler}
         />
         <Button
           title=""
           icon="---search"
-          onClick={this.GetFlatsList}
+          onClick={this.locationSelectHandler}
         />
         <Link to="/bookmarks">
           <Button title="Bookmarks" />
         </Link>
         <div className="list-of-flats">
-          {this.GenerateListOfAvailableFlats()}
+          {this.generateListOfAvailableFlats()}
         </div>
         {(isLoading) && (
         <div>LOADING</div>)}
@@ -153,13 +157,13 @@ class Main extends PureComponent {
           ? ((!isLoading && isThereFlats) && (
             <Button
               title="Load more"
-              onClick={this.GetMoreFlats}
+              onClick={this.getMoreFlats}
             />))
           : ((!isLoading) && (
             <Pagination
               maxPages={maxPages}
               currentPage={currentPage}
-              newPageIndexCallback={response => this.PageSwitchHandler(response)}
+              newPageIndexCallback={newPageIndex => this.pageSwitchHandler(newPageIndex)}
             />))
             }
       </div>
@@ -179,7 +183,7 @@ const getDataFromStore = store => ({
 
 
 const setDataToStore = dispatch => ({
-  getFlatsAction: (quantity, city, page, callback) => dispatch(getFlats(quantity, city, page, callback)),
+  getFlatsAction: callback => dispatch(getFlats(callback)),
   toggleLoadingAction: () => dispatch(toggleLoading()),
   setCurrentPageAction: page => dispatch(setCurrentPage(page)),
   setFlatsQuantityAction: quantity => dispatch(setFlatsQuantity(quantity)),

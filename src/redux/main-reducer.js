@@ -1,6 +1,12 @@
+/* eslint-disable no-param-reassign */
 
 import {
-  SET_FLATS, SET_PAGES, TOGGLE_LOADING, SET_CURRENT_PAGE, SET_FLATS_QUANTITY, SET_LOCATION,
+  SET_FLATS,
+  SET_PAGES,
+  TOGGLE_LOADING,
+  SET_CURRENT_PAGE,
+  SET_FLATS_QUANTITY,
+  SET_LOCATION,
 } from './_action-types';
 
 const initialState = {
@@ -15,9 +21,13 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_FLATS: {
+      const flatsArray = action.data;
+      flatsArray.forEach((element, index) => {
+        element.id = index;
+      });
       return {
         ...state,
-        flats: action.data,
+        flats: flatsArray,
       };
     }
 
