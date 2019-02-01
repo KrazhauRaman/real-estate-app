@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+/* eslint-disable camelcase */
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { BackArrow } from '../ui/back-arrow';
 import { ListItem } from '../ui/list-item';
 
-class Bookmarks extends Component {
+class Bookmarks extends PureComponent {
   // создание списка квартир на основе полученных данных
   generateListOfBookmarks() {
     const { bookmarksList } = this.props;
@@ -16,7 +17,13 @@ class Bookmarks extends Component {
         title, summary, thumb_url, id,
       } = flat;
       listOfAvailableFlats.push(
-        <ListItem title={title} summary={summary} thumbUrl={thumb_url} key={String(index)} id={id} />,
+        <ListItem
+          title={title}
+          summary={summary}
+          thumbUrl={thumb_url}
+          key={String(index)}
+          id={id}
+        />,
       );
     });
 

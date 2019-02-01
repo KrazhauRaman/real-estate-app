@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
@@ -16,7 +17,7 @@ const tempStyle = {
   flexDirection: 'column',
 };
 
-class FlatPage extends Component {
+class FlatPage extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -122,7 +123,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(FlatPage);
 FlatPage.propTypes = {
   saveBookmarkAction: PropTypes.func,
   removeBookmarkAction: PropTypes.func,
-  match: PropTypes.object.isRequired,
+  // match: PropTypes.object.isRequired,
 };
 
 FlatPage.defaultProps = {

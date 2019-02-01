@@ -1,0 +1,63 @@
+.ListItem {
+    width: 300px;
+    height: 200px;
+    /* border: 1px solid gray; */
+    border-radius: 10px;
+    margin: 5px;
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);    
+}
+
+.ListItem__backgroundDiv:hover {
+    filter: blur(2px);
+}
+
+.ListItem__backgroundDiv {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    top: 0;
+    left: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #d2f7d5; 
+    background-size: cover;
+}
+
+
+.ListItem__infoDiv {
+    pointer-events: none;
+    position: absolute;
+    width: 280px;
+    height: 180px;
+    top: 1;
+    left: 1;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 10px 10px 10px;
+}
+
+.ListItem__infoDiv_header {
+    display: flex;
+    flex-direction: column;
+}
+
+.ListItem__infoDiv_header_title {
+    color: black;
+    font-family: 'Proza Libre', sans-serif;
+    font-weight: 700;
+}
+
+.ListItem__infoDiv_header_price {
+    color: orangered;
+    font-family: 'Proza Libre', sans-serif;
+    font-weight: 500;
+}
+
+.ListItem__infoDiv_summary {
+    color: black;
+    font-family: 'Proza Libre', sans-serif;
+    font-weight: 500;  
+}

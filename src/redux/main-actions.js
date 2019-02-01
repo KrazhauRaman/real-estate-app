@@ -44,6 +44,7 @@ export const getFlats = newPageLoadingCallback => (dispatch, getState) => {
   return getListOfFlats(flatsQuantity, location, currentPage)
     .then(res => res.json())
     .then((res) => {
+      console.log(res);
       dispatch(setFlats(res.response.listings));
       if (flatsQuantity === 50) {
         dispatch(setPagesQuantity(res.response.total_pages));

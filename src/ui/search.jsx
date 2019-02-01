@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Search = ({
-  placeholder, onChange, value, onKeyPress, disabled,
+  placeholder, onChange, value, onKeyPress, disabled, styles,
 }) => (
   <input
     placeholder={placeholder}
@@ -11,6 +11,7 @@ export const Search = ({
     onKeyPress={e => onKeyPress(e)}
     value={value}
     disabled={disabled}
+    className={styles}
   />);
 
 Search.propTypes = {
@@ -19,6 +20,7 @@ Search.propTypes = {
   onChange: PropTypes.func,
   onKeyPress: PropTypes.func,
   disabled: PropTypes.bool,
+  styles: PropTypes.string,
 };
 
 Search.defaultProps = {
@@ -26,4 +28,5 @@ Search.defaultProps = {
   onChange: null,
   onKeyPress: null,
   disabled: false,
+  styles: '',
 };

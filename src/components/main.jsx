@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { Button } from '../ui/button';
 import { Search } from '../ui/search';
 import { ListItem } from '../ui/list-item';
+import { Loading } from '../ui/loading';
 import { Pagination } from '../ui/pagination';
 import {
   getFlats,
@@ -20,6 +21,7 @@ import {
   setFlatsQuantity,
   setLocation,
 } from '../redux/main-actions';
+import styles from '../css/main.css';
 
 class Main extends PureComponent {
   constructor(props) {
@@ -117,9 +119,23 @@ class Main extends PureComponent {
     const listOfAvailableFlats = [];
 
     flatsList.forEach((flat, index) => {
-      const { title, summary, thumb_url, id } = flat;
+      const {
+        title,
+        summary,
+        thumb_url,
+        id,
+        price_formatted,
+      } = flat;
+
       listOfAvailableFlats.push(
-        <ListItem title={title} summary={summary} thumbUrl={thumb_url} key={String(index)} id={id} />,
+        <ListItem
+          title={title}
+          summary={summary}
+          thumbUrl={thumb_url}
+          key={String(index)}
+          id={id}
+          price={price_formatted}
+        />,
       );
     });
 
@@ -133,27 +149,37 @@ class Main extends PureComponent {
     } = this.state;
     return (
       <div className="App">
-        <Search
-          placeholder="Find city..."
-          onChange={this.changeLocation}
-          value={flatsLocation}
-          onKeyPress={this.enterKeyPressHandler}
-          disabled={isLoading}
-        />
-        <Button
-          title=""
-          icon="---search"
-          onClick={this.locationSelectHandler}
-          disabled={isLoading}
-        />
-        <Link to="/bookmarks">
-          <Button title="Bookmarks" />
-        </Link>
-        <div className="list-of-flats">
+        {(isLoading) && (<Loading />)}
+        <div className={styles.mainSearch}>
+          <div className={styles.mainSearch__headerBlock}>
+            <h1>Find appartments of your dream</h1>
+          </div>
+          <div className={styles.mainSearch__searchBlock}>
+            <Search
+              placeholder="Enter city..."
+              onChange={this.changeLocation}
+              value={flatsLocation}
+              onKeyPress={this.enterKeyPressHandler}
+              // disabled={isLoading}
+              styles={styles.mainSearch__searchBlock_input}
+            />
+            <Button
+              title=""
+              icon={<i className="large material-icons">search</i>}
+              onClick={this.locationSelectHandler}
+              // disabled={isLoading}
+              styles={styles.mainSearch__searchBlock_button}
+            />
+          </div>
+          <div className={styles.mainSearch__bookmarksBlock}>
+            <Link to="/bookmarks">
+              <Button title="Bookmarks" styles={styles.mainSearch__bookmarksBlock_button} />
+            </Link>
+          </div>
+        </div>
+        <div className={styles.mainListOfFlats}>
           {this.generateListOfAvailableFlats()}
         </div>
-        {(isLoading) && (
-        <div>LOADING</div>)}
         {(flatsQuantity === 20)
           ? ((!isLoading && isThereFlats) && (
             <Button

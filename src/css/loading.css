@@ -1,0 +1,75 @@
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.774);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.loading__loadingAnimation {
+    height: 40px;
+    width: 200px;
+    margin-top: -15%; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.loading__loadingAnimation_span {
+    font-size: 40px;
+}
+
+.loading__loadingAnimation_gearRay {
+    width: 30px;
+    height: 4px;
+    background-color: white;
+    position: absolute;
+    
+}
+
+.loading__loadingAnimation_gearRay_turnRate_0 {
+    animation: rotateGear0 3s linear infinite;
+}
+
+.loading__loadingAnimation_gearRay_turnRate_45 {
+    transform: rotate(45deg);
+    animation: rotateGear45 3s linear infinite;
+}
+
+.loading__loadingAnimation_gearRay_turnRate_90 {
+    transform: rotate(90deg);
+    animation: rotateGear90 3s linear infinite;
+}
+
+.loading__loadingAnimation_gearRay_turnRate_135 {
+    transform: rotate(135deg);
+    animation: rotateGear135 3s linear infinite;
+}
+
+@keyframes rotateGear0 {
+    0% {transform: rotate(0deg);}
+   100% {transform: rotate(360deg);}
+  }
+
+@keyframes rotateGear45 {
+    0% {transform: rotate(45deg);}
+   100% {transform: rotate(405deg);}
+  }
+
+@keyframes rotateGear90 {
+    0% {transform: rotate(90deg);}
+   100% {transform: rotate(450deg);}
+  }
+
+@keyframes rotateGear135 {
+    0% {transform: rotate(135deg);}
+   100% {transform: rotate(495deg);}
+  }
