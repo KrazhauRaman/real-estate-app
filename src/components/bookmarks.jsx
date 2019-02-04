@@ -25,7 +25,7 @@ class Bookmarks extends PureComponent {
       const {
         title,
         summary,
-        thumb_url,
+        img_url,
         id,
         price_formatted,
       } = flat;
@@ -33,7 +33,7 @@ class Bookmarks extends PureComponent {
         <ListItem
           title={title}
           summary={summary}
-          thumbUrl={thumb_url}
+          thumbUrl={img_url}
           key={String(index)}
           id={id}
           price={price_formatted}

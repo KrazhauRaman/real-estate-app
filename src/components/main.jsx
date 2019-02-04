@@ -130,7 +130,7 @@ class Main extends PureComponent {
       const {
         title,
         summary,
-        thumb_url,
+        img_url,
         id,
         price_formatted,
       } = flat;
@@ -139,7 +139,7 @@ class Main extends PureComponent {
         <ListItem
           title={title}
           summary={summary}
-          thumbUrl={thumb_url}
+          thumbUrl={img_url}
           key={String(index)}
           id={id}
           price={price_formatted}
@@ -166,7 +166,7 @@ class Main extends PureComponent {
         {(isLoading) && (<Loading />)}
         <div className={styles.mainSearch}>
           <div className={styles.mainSearch__headerBlock}>
-            <h1>Find appartments of your dream</h1>
+            <h1>Find apartments of your dream</h1>
           </div>
           <div className={styles.mainSearch__searchBlock}>
             <div className={styles.mainSearch__searchBlock_searchInputs}>
