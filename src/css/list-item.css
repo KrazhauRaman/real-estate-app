@@ -1,6 +1,6 @@
 .ListItem {
-    width: 300px;
-    height: 200px;
+    width: 500px;
+    height: 300px;
     /* border: 1px solid gray; */
     border-radius: 10px;
     margin: 5px;
@@ -28,8 +28,8 @@
 .ListItem__infoDiv {
     pointer-events: none;
     position: absolute;
-    width: 280px;
-    height: 180px;
+    width: 480px;
+    height: 280px;
     top: 1;
     left: 1;
     z-index: 1;
@@ -48,16 +48,19 @@
     color: black;
     font-family: 'Proza Libre', sans-serif;
     font-weight: 700;
+    font-size: 25px;
 }
 
 .ListItem__infoDiv_header_price {
     color: orangered;
     font-family: 'Proza Libre', sans-serif;
     font-weight: 500;
+    font-size: 30px;
 }
 
 .ListItem__infoDiv_summary {
     color: black;
     font-family: 'Proza Libre', sans-serif;
     font-weight: 500;  
+    font-size: 25px;
 }
