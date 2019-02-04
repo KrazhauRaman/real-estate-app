@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Search = ({
+const Search = ({
   placeholder, onChange, value, onKeyPress, disabled, styles,
 }) => (
   <input
@@ -13,6 +13,8 @@ export const Search = ({
     disabled={disabled}
     className={styles}
   />);
+
+export default Search;
 
 Search.propTypes = {
   placeholder: PropTypes.string.isRequired,

@@ -1,16 +1,15 @@
 /* eslint-disable no-plusplus */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from './button';
+import Button from './button';
 import styles from '../css/pagination.css';
 
-export const Pagination = ({
+const Pagination = ({
   currentPage,
   maxPages,
   newPageIndexCallback,
 }) => {
   const paginatorButtons = [];
-
 
   function createNumericalButton(key) {
     return (
@@ -98,6 +97,8 @@ export const Pagination = ({
 
   return paginatorButtons;
 };
+
+export default Pagination;
 
 Pagination.propTypes = {
   currentPage: PropTypes.number.isRequired,

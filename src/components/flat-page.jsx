@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router';
-import { BackArrow } from '../ui/back-arrow';
-import { Button } from '../ui/button';
+import BackArrow from '../ui/back-arrow';
+import Button from '../ui/button';
 import {
   saveBookmark,
   removeBookmark,

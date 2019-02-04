@@ -4,11 +4,11 @@ import React, { PureComponent } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button } from '../ui/button';
-import { Search } from '../ui/search';
-import { ListItem } from '../ui/list-item';
-import { Loading } from '../ui/loading';
-import { Pagination } from '../ui/pagination';
+import Button from '../ui/button';
+import Search from '../ui/search';
+import ListItem from '../ui/list-item';
+import Loading from '../ui/loading';
+import Pagination from '../ui/pagination';
 import {
   getFlats,
   toggleLoading,

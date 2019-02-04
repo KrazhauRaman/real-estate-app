@@ -9,7 +9,7 @@ import {
   SET_BACK_ADDRESS,
   SET_IS_NO_RESULT,
 } from './_action-types';
-import { getListOfFlats } from '../server-requests/get-data';
+import getListOfFlats from '../server-requests/get-data';
 
 
 export const setFlats = flats => ({

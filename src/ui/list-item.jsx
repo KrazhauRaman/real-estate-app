@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styles from '../css/list-item.css';
 
-export const ListItem = ({
+const ListItem = ({
   title,
   summary,
   thumbUrl,
@@ -23,6 +23,8 @@ export const ListItem = ({
     </Link>
   </div>
 );
+
+export default ListItem;
 
 ListItem.propTypes = {
   title: PropTypes.string.isRequired,

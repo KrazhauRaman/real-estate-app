@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../css/loading.css';
 
-export const Loading = () => (
+const Loading = () => (
   <div className={styles.loading}>
     <div className={styles.loading__loadingAnimation}>
       <span className={styles.loading__loadingAnimation_span}>LOADING</span>
@@ -15,3 +15,5 @@ export const Loading = () => (
 
   </div>
 );
+
+export default Loading;

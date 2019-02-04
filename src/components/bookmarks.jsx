@@ -3,8 +3,8 @@ import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { BackArrow } from '../ui/back-arrow';
-import { ListItem } from '../ui/list-item';
+import BackArrow from '../ui/back-arrow';
+import ListItem from '../ui/list-item';
 import { setBackAddress } from '../redux/main-actions';
 import styles from '../css/bookmarks.css';
 
