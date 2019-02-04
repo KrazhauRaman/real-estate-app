@@ -1,10 +1,5 @@
-/* eslint-disable func-names */
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable camelcase */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
+/* eslint-disable camelcase */
 import React, { PureComponent } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -20,6 +15,7 @@ import {
   setCurrentPage,
   setFlatsQuantity,
   setLocation,
+  setBackAddress,
 } from '../redux/main-actions';
 import styles from '../css/main.css';
 
@@ -34,10 +30,11 @@ class Main extends PureComponent {
       currentPage: 1,
       maxPages: 0,
       isThereFlats: false,
+      isNoResult: false,
     };
     this.getFlatsList = this.getFlatsList.bind(this);
     this.getMoreFlats = this.getMoreFlats.bind(this);
-    this.changeLocation = this.changeLocation.bind(this);
+    this.changeLocationHandler = this.changeLocationHandler.bind(this);
     this.enterKeyPressHandler = this.enterKeyPressHandler.bind(this);
     this.pageSwitchHandler = this.pageSwitchHandler.bind(this);
     this.locationSelectHandler = this.locationSelectHandler.bind(this);
@@ -52,16 +49,27 @@ class Main extends PureComponent {
       isThereFlats: (nextProps.flatsList.length > 0),
       currentPage: nextProps.currentPage,
       flatsQuantity: nextProps.flatsQuantity,
+      isNoResult: nextProps.isNoResult,
     };
   }
 
+  componentDidMount() {
+    const { isThereFlats } = this.state;
+    const { setBackAddressAction } = this.props;
 
-  // получение списка квартир в выбранном городе, данные для запроса берутся в сторе
-  // если есть переключение на новую страницу, то после загрузки страница скроллится наверх
+    if (isThereFlats) {
+      this.scrollToFlats();
+    }
+
+    setBackAddressAction('/');
+  }
+
+  // getting flats list in selected city, data for request comes from store
+  // if there is switching to a new page in pagination, page will scroll to start of flats list
   getFlatsList() {
     const { getFlatsAction, toggleLoadingAction } = this.props;
     toggleLoadingAction();
-    getFlatsAction(this.scrollToTop);
+    getFlatsAction(this.scrollToFlats);
   }
 
 
@@ -71,16 +79,16 @@ class Main extends PureComponent {
 
     this.setState({
       flatsQuantity: 50,
-    }, function () {
+    }, () => {
       this.getFlatsList();
     });
   }
 
-  scrollToTop() {
-    window.scrollTo(0, 0);
+  scrollToFlats() {
+    window.scrollTo(0, window.innerHeight);
   }
 
-  // обработка действий пользователя
+  // users actions handling
   pageSwitchHandler(newPage) {
     const { setCurrentPageAction, setFlatsQuantityAction } = this.props;
     setCurrentPageAction(newPage);
@@ -89,12 +97,12 @@ class Main extends PureComponent {
     this.setState({
       currentPage: newPage,
       flatsQuantity: 20,
-    }, function () {
+    }, () => {
       this.getFlatsList();
     });
   }
 
-  changeLocation(e) {
+  changeLocationHandler(e) {
     this.setState({
       flatsLocation: e.currentTarget.value,
     });
@@ -113,7 +121,7 @@ class Main extends PureComponent {
     this.pageSwitchHandler(1);
   }
 
-  // создание списка квартир на основе полученных данных
+  // creating flats lisn on the basis of received data
   generateListOfAvailableFlats() {
     const { flatsList } = this.state;
     const listOfAvailableFlats = [];
@@ -145,7 +153,13 @@ class Main extends PureComponent {
 
   render() {
     const {
-      isLoading, flatsLocation, flatsQuantity, maxPages, currentPage, isThereFlats,
+      isLoading,
+      flatsLocation,
+      flatsQuantity,
+      maxPages,
+      currentPage,
+      isThereFlats,
+      isNoResult,
     } = this.state;
     return (
       <div className="App">
@@ -155,25 +169,33 @@ class Main extends PureComponent {
             <h1>Find appartments of your dream</h1>
           </div>
           <div className={styles.mainSearch__searchBlock}>
-            <Search
-              placeholder="Enter city..."
-              onChange={this.changeLocation}
-              value={flatsLocation}
-              onKeyPress={this.enterKeyPressHandler}
-              // disabled={isLoading}
-              styles={styles.mainSearch__searchBlock_input}
-            />
-            <Button
-              title=""
-              icon={<i className="large material-icons">search</i>}
-              onClick={this.locationSelectHandler}
-              // disabled={isLoading}
-              styles={styles.mainSearch__searchBlock_button}
-            />
+            <div className={styles.mainSearch__searchBlock_searchInputs}>
+              <Search
+                placeholder="Enter city..."
+                onChange={this.changeLocationHandler}
+                value={flatsLocation}
+                onKeyPress={this.enterKeyPressHandler}
+                styles={styles.mainSearch__searchBlock_searchInputs_input}
+              />
+              <Button
+                title=""
+                icon={<i className="large material-icons">search</i>}
+                onClick={this.locationSelectHandler}
+                styles={styles.mainSearch__searchBlock_searchInputs_button}
+              />
+            </div>
+            {(isNoResult) && (
+            <div className={styles.mainSearch__searchBlock_noResult}>
+              <span className={styles.mainSearch__searchBlock_noResult_span}>No result</span>
+            </div>
+            )}
           </div>
           <div className={styles.mainSearch__bookmarksBlock}>
             <Link to="/bookmarks">
-              <Button title="Bookmarks" styles={styles.mainSearch__bookmarksBlock_button} />
+              <Button
+                title="Bookmarks"
+                styles={styles.mainSearch__bookmarksBlock_button}
+              />
             </Link>
           </div>
         </div>
@@ -182,16 +204,21 @@ class Main extends PureComponent {
         </div>
         {(flatsQuantity === 20)
           ? ((!isLoading && isThereFlats) && (
-            <Button
-              title="Load more"
-              onClick={this.getMoreFlats}
-            />))
+            <div className={styles.mainSearch__loadMore}>
+              <Button
+                title="Load more"
+                onClick={this.getMoreFlats}
+                styles={styles.mainSearch__loadMore_button}
+              />
+            </div>))
           : ((!isLoading) && (
-            <Pagination
-              maxPages={maxPages}
-              currentPage={currentPage}
-              newPageIndexCallback={newPageIndex => this.pageSwitchHandler(newPageIndex)}
-            />))
+            <div className={styles.mainSearch__pagination}>
+              <Pagination
+                maxPages={maxPages}
+                currentPage={currentPage}
+                newPageIndexCallback={newPageIndex => this.pageSwitchHandler(newPageIndex)}
+              />
+            </div>))
             }
       </div>
     );
@@ -206,6 +233,7 @@ const mapStateToProps = store => ({
   currentPage: store.main.currentPage,
   location: store.main.location,
   flatsQuantity: store.main.flatsQuantity,
+  isNoResult: store.main.isNoResult,
 });
 
 
@@ -215,6 +243,7 @@ const mapDispatchToProps = dispatch => ({
   setCurrentPageAction: page => dispatch(setCurrentPage(page)),
   setFlatsQuantityAction: quantity => dispatch(setFlatsQuantity(quantity)),
   setLocationAction: location => dispatch(setLocation(location)),
+  setBackAddressAction: newAddress => dispatch(setBackAddress(newAddress)),
 });
 
 
@@ -227,12 +256,13 @@ Main.propTypes = {
   setCurrentPageAction: PropTypes.func,
   setFlatsQuantityAction: PropTypes.func,
   setLocationAction: PropTypes.func,
-  flatsList: PropTypes.arrayOf(PropTypes.object),
-  maxPages: PropTypes.number,
-  isLoading: PropTypes.bool,
-  currentPage: PropTypes.number,
-  location: PropTypes.string,
-  flatsQuantity: PropTypes.number,
+  // flatsList: PropTypes.arrayOf(PropTypes.object),
+  // maxPages: PropTypes.number,
+  // isLoading: PropTypes.bool,
+  // currentPage: PropTypes.number,
+  // location: PropTypes.string,
+  // flatsQuantity: PropTypes.number,
+  setBackAddressAction: PropTypes.func,
 };
 
 Main.defaultProps = {
@@ -241,10 +271,11 @@ Main.defaultProps = {
   setCurrentPageAction: null,
   setFlatsQuantityAction: null,
   setLocationAction: null,
-  flatsList: [],
-  maxPages: 0,
-  isLoading: false,
-  currentPage: 1,
-  location: '',
-  flatsQuantity: 20,
+  // flatsList: [],
+  // maxPages: 0,
+  // isLoading: false,
+  // currentPage: 1,
+  // location: '',
+  // flatsQuantity: 20,
+  setBackAddressAction: null,
 };

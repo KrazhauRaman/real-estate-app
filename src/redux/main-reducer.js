@@ -7,6 +7,8 @@ import {
   SET_CURRENT_PAGE,
   SET_FLATS_QUANTITY,
   SET_LOCATION,
+  SET_BACK_ADDRESS,
+  SET_IS_NO_RESULT,
 } from './_action-types';
 
 const initialState = {
@@ -16,6 +18,8 @@ const initialState = {
   currentPage: 1,
   location: '',
   flatsQuantity: 20,
+  backAddress: '/',
+  isNoResult: false,
 };
 
 export default function (state = initialState, action) {
@@ -67,6 +71,20 @@ export default function (state = initialState, action) {
       return {
         ...state,
         location: action.data,
+      };
+    }
+
+    case SET_BACK_ADDRESS: {
+      return {
+        ...state,
+        backAddress: action.data,
+      };
+    }
+
+    case SET_IS_NO_RESULT: {
+      return {
+        ...state,
+        isNoResult: action.data,
       };
     }
 

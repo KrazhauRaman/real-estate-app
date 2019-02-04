@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { PropTypes } from 'prop-types';
 
@@ -17,7 +16,9 @@ export const Button = ({
 
 Button.propTypes = {
   title: PropTypes.string,
-  icon: PropTypes.object,
+  icon: PropTypes.shape({
+    $$typeof: PropTypes.symbol,
+  }),
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
   styles: PropTypes.string,

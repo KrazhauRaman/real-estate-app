@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable no-console */
 import {
   SET_FLATS,
   SET_PAGES,
@@ -6,6 +6,8 @@ import {
   SET_CURRENT_PAGE,
   SET_FLATS_QUANTITY,
   SET_LOCATION,
+  SET_BACK_ADDRESS,
+  SET_IS_NO_RESULT,
 } from './_action-types';
 import { getListOfFlats } from '../server-requests/get-data';
 
@@ -39,13 +41,22 @@ export const setLocation = location => ({
   data: location,
 });
 
+export const setIsNoResult = isNoResult => ({
+  type: SET_IS_NO_RESULT,
+  data: isNoResult,
+});
+
 export const getFlats = newPageLoadingCallback => (dispatch, getState) => {
   const { location, flatsQuantity, currentPage } = getState().main;
   return getListOfFlats(flatsQuantity, location, currentPage)
     .then(res => res.json())
     .then((res) => {
-      console.log(res);
       dispatch(setFlats(res.response.listings));
+      if (res.response.listings.length === 0) {
+        dispatch(setIsNoResult(true));
+      } else {
+        dispatch(setIsNoResult(false));
+      }
       if (flatsQuantity === 50) {
         dispatch(setPagesQuantity(res.response.total_pages));
       } else {
@@ -55,3 +66,8 @@ export const getFlats = newPageLoadingCallback => (dispatch, getState) => {
     })
     .catch(err => console.log(err));
 };
+
+export const setBackAddress = newAddress => ({
+  type: SET_BACK_ADDRESS,
+  data: newAddress,
+});

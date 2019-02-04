@@ -2,41 +2,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from './button';
+import styles from '../css/pagination.css';
 
 export const Pagination = ({
-  currentPage, maxPages, newPageIndexCallback,
+  currentPage,
+  maxPages,
+  newPageIndexCallback,
 }) => {
   const paginatorButtons = [];
 
-  paginatorButtons.push(
-    <Button
-      key={100}
-      icon="---<<"
-      disabled={currentPage === 1}
-      onClick={() => { newPageIndexCallback(1); }}
-    />,
-  );
-  paginatorButtons.push(
-    <Button
-      key={101}
-      icon="---<"
-      disabled={currentPage === 1}
-      onClick={() => { newPageIndexCallback(currentPage - 1); }}
-    />,
-  );
 
   function createNumericalButton(key) {
     return (
       <Button
         key={String(key)}
         title={String(key)}
-        onClick={() => { newPageIndexCallback(key); }}
+        onClick={(key === currentPage) ? null : () => { newPageIndexCallback(key); }}
+        styles={
+          (key === currentPage)
+            ? styles.pagination__button_active
+            : styles.pagination__button
+        }
       />
     );
   }
 
+  paginatorButtons.push(
+    <Button
+      key={100}
+      icon={<i className="large material-icons">first_page</i>}
+      disabled={currentPage === 1}
+      onClick={() => { newPageIndexCallback(1); }}
+      styles={styles.pagination__button}
+    />,
+  );
+  paginatorButtons.push(
+    <Button
+      key={101}
+      icon={<i className="large material-icons">navigate_before</i>}
+      disabled={currentPage === 1}
+      onClick={() => { newPageIndexCallback(currentPage - 1); }}
+      styles={styles.pagination__button}
+    />,
+  );
+
   if (maxPages < 5) {
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < maxPages + 1; i++) {
       paginatorButtons.push(createNumericalButton(i));
     }
   } else {
@@ -67,17 +78,20 @@ export const Pagination = ({
   paginatorButtons.push(
     <Button
       key={102}
-      icon="--->"
+      icon={<i className="large material-icons">navigate_next</i>}
       disabled={currentPage === maxPages}
       onClick={() => { newPageIndexCallback(currentPage + 1); }}
+      styles={styles.pagination__button}
     />,
   );
+
   paginatorButtons.push(
     <Button
       key={103}
-      icon="--->>"
+      icon={<i className="large material-icons">last_page</i>}
       disabled={currentPage === maxPages}
       onClick={() => { newPageIndexCallback(maxPages); }}
+      styles={styles.pagination__button}
     />,
   );
 

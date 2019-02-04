@@ -1,0 +1,110 @@
+.flatPage {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(89, 226, 112);
+}
+
+.flatPage__description {
+    display: flex;
+    flex-direction: column;
+}
+
+.flatPage__description_text {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Proza Libre', sans-serif;
+    font-weight: 700;
+    margin: 10px 0 10px 15px
+}
+
+.flatPage__description_additional {
+    display: flex;
+    flex-direction: row;
+}
+
+.flatPage__description_additional_img {
+    height: 300px;
+    width: 400px;
+    margin-left: 15px;
+    border-radius: 15px;
+}
+
+.flatPage__description_additional_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 15px;
+    font-family: 'Proza Libre', sans-serif;
+    font-weight: 700;
+}
+
+.flatPage__goToSeller {
+    margin: 0 auto;
+}
+
+.flatPage__goToSeller_button {
+       margin-top: 45px;
+       height: 60px;
+       width: 200px;
+       border: 0;
+       border-radius: 15px;    
+       background-color: rgb(248, 228, 43);  
+       font-weight: 900;
+       font-size: 25px; 
+}
+
+.flatPage__goToSeller_button:hover {
+    cursor: pointer;
+    background-color: rgb(255, 236, 64);
+}
+
+.flatPage__goToSeller_button:focus {
+    outline: none;
+}
+
+.flatPage__navigation {
+    /* padding-top: 15px;
+    padding-left: 15px; */
+    padding: 15px 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.flatPage__navigation_remove {
+    height: 80px;
+    width: 240px;
+    border: 0;
+    padding: 0;
+    border-radius: 15px;    
+    background-color: rgb(247, 58, 25); 
+    font-size: 30px;  
+}
+
+.flatPage__navigation_remove:focus {
+    outline: none;
+}
+
+.flatPage__navigation_remove:hover {
+    cursor: pointer;
+    background-color: rgb(240, 89, 62);
+}
+
+.flatPage__navigation_add {
+    height: 80px;
+    width: 240px;
+    border: 0;
+    padding: 0;
+    border-radius: 15px;    
+    background-color: rgb(30, 255, 79);   
+    font-size: 30px;  
+}
+
+.flatPage__navigation_add:focus {
+    outline: none;
+}
+
+
+.flatPage__navigation_add:hover {
+    cursor: pointer;
+    background-color: rgb(33, 212, 72);  
+}

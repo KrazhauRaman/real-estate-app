@@ -1,0 +1,15 @@
+.bookmarks {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(89, 226, 112);
+}
+
+.bookmarks__header {
+    padding: 15px;
+}
+
+.bookmarks__flatList {
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+}
