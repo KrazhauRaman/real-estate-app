@@ -71,10 +71,12 @@ export default function (state = initialState, action) {
       };
     }
 
+    // flats list purifying on location change
     case SET_LOCATION: {
       return {
         ...state,
         location: action.data,
+        flats: [],
       };
     }
 
