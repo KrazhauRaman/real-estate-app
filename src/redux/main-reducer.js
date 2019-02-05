@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 
 import {
@@ -25,14 +26,17 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_FLATS: {
-      let flatsArray = [];
+      // for pagination should be = []
+      const flatsArray = [...state.flats];
       if (action.data) {
-        flatsArray = [...action.data];
+        // for pagination should be without 33-35
+        for (const flat of action.data) {
+          flatsArray.push(flat);
+        }
         flatsArray.forEach((element, index) => {
           element.id = Number(String(Date.now()) + String(index));
         });
       }
-
       return {
         ...state,
         flats: flatsArray,

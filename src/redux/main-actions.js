@@ -57,9 +57,14 @@ export const getFlats = newPageLoadingCallback => (dispatch, getState) => {
       } else {
         dispatch(setIsNoResult(false));
       }
-      if (flatsQuantity === 50) {
-        dispatch(setPagesQuantity(res.response.total_pages));
-      } else {
+      // keep for pagination
+      //
+      // if (flatsQuantity === 50) {
+      //   dispatch(setPagesQuantity(res.response.total_pages));
+      // } else {
+      //   newPageLoadingCallback();
+      // }
+      if (currentPage === 1) {
         newPageLoadingCallback();
       }
       dispatch(toggleLoading());

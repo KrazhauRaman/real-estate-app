@@ -72,13 +72,27 @@ class Main extends PureComponent {
     getFlatsAction(this.scrollToFlats);
   }
 
+  // this method used for pagination
+  //
+  // getMoreFlats() {
+  //   const { setFlatsQuantityAction } = this.props;
+  //   setFlatsQuantityAction(50);
+
+  //   this.setState({
+  //     flatsQuantity: 50,
+  //   }, () => {
+  //     this.getFlatsList();
+  //   });
+  // }
+
 
   getMoreFlats() {
-    const { setFlatsQuantityAction } = this.props;
-    setFlatsQuantityAction(50);
+    const { currentPage } = this.state;
+    const { setCurrentPageAction } = this.props;
+    setCurrentPageAction(currentPage + 1);
 
     this.setState({
-      flatsQuantity: 50,
+      currentPage: currentPage + 1,
     }, () => {
       this.getFlatsList();
     });
@@ -121,7 +135,7 @@ class Main extends PureComponent {
     this.pageSwitchHandler(1);
   }
 
-  // creating flats lisn on the basis of received data
+  // creating flats list on the basis of received data
   generateListOfAvailableFlats() {
     const { flatsList } = this.state;
     const listOfAvailableFlats = [];
@@ -203,7 +217,9 @@ class Main extends PureComponent {
           {this.generateListOfAvailableFlats()}
         </div>
         {(flatsQuantity === 20)
-          ? ((!isLoading && isThereFlats) && (
+          ? ((isThereFlats) && (
+            // for pagination
+            // ? ((!isLoading && isThereFlats) && (
             <div className={styles.mainSearch__loadMore}>
               <Button
                 title="Load more"
