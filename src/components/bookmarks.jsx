@@ -11,7 +11,16 @@ import styles from '../css/bookmarks.css';
 class Bookmarks extends PureComponent {
   // saving current address for "back" button on flat pages
   componentDidMount() {
-    const { setBackAddressAction } = this.props;
+    const { setBackAddressAction, location } = this.props;
+
+    if (location.state) {
+      const item = document.querySelector(
+        `.restore-${location.state}`,
+      );
+      if (item) {
+        item.scrollIntoView();
+      }
+    }
 
     setBackAddressAction('/bookmarks');
   }
@@ -21,7 +30,7 @@ class Bookmarks extends PureComponent {
     const { bookmarksList } = this.props;
     const listOfAvailableFlats = [];
 
-    bookmarksList.forEach((flat, index) => {
+    bookmarksList.forEach((flat) => {
       const {
         title,
         summary,
@@ -34,7 +43,7 @@ class Bookmarks extends PureComponent {
           title={title}
           summary={summary}
           thumbUrl={img_url}
-          key={String(index)}
+          key={id}
           id={id}
           price={price_formatted}
         />,
@@ -74,6 +83,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Bookmarks);
 Bookmarks.propTypes = {
   bookmarksList: PropTypes.arrayOf(PropTypes.object),
   setBackAddressAction: PropTypes.func,
+  location: PropTypes.shape({}).isRequired,
 };
 
 Bookmarks.defaultProps = {

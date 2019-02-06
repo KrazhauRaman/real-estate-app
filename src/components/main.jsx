@@ -55,8 +55,16 @@ class Main extends PureComponent {
 
   componentDidMount() {
     const { isThereFlats } = this.state;
-    const { setBackAddressAction } = this.props;
+    const { setBackAddressAction, location } = this.props;
 
+    if (location.state) {
+      const item = document.querySelector(
+        `.restore-${location.state}`,
+      );
+      if (item) {
+        item.scrollIntoView();
+      }
+    } else
     if (isThereFlats) {
       this.scrollToFlats();
     }
@@ -90,12 +98,12 @@ class Main extends PureComponent {
     const { currentPage } = this.state;
     const { setCurrentPageAction } = this.props;
     setCurrentPageAction(currentPage + 1);
-
-    this.setState({
-      currentPage: currentPage + 1,
-    }, () => {
-      this.getFlatsList();
-    });
+    this.setState(
+      prevState => ({ currentPage: prevState.currentPage + 1 }),
+      () => {
+        this.getFlatsList();
+      },
+    );
   }
 
   scrollToFlats() {
@@ -140,7 +148,7 @@ class Main extends PureComponent {
     const { flatsList } = this.state;
     const listOfAvailableFlats = [];
 
-    flatsList.forEach((flat, index) => {
+    flatsList.forEach((flat) => {
       const {
         title,
         summary,
@@ -154,7 +162,7 @@ class Main extends PureComponent {
           title={title}
           summary={summary}
           thumbUrl={img_url}
-          key={String(index)}
+          key={id}
           id={id}
           price={price_formatted}
         />,
@@ -199,9 +207,9 @@ class Main extends PureComponent {
               />
             </div>
             {(isNoResult) && (
-            <div className={styles.mainSearch__searchBlock_noResult}>
-              <span className={styles.mainSearch__searchBlock_noResult_span}>No result</span>
-            </div>
+              <div className={styles.mainSearch__searchBlock_noResult}>
+                <span className={styles.mainSearch__searchBlock_noResult_span}>No result</span>
+              </div>
             )}
           </div>
           <div className={styles.mainSearch__bookmarksBlock}>
@@ -247,7 +255,7 @@ const mapStateToProps = store => ({
   maxPages: store.main.maxPages,
   isLoading: store.main.isLoading,
   currentPage: store.main.currentPage,
-  location: store.main.location,
+  // location: store.main.location,
   flatsQuantity: store.main.flatsQuantity,
   isNoResult: store.main.isNoResult,
 });
@@ -279,6 +287,7 @@ Main.propTypes = {
   // location: PropTypes.string,
   // flatsQuantity: PropTypes.number,
   setBackAddressAction: PropTypes.func,
+  location: PropTypes.shape({}).isRequired,
 };
 
 Main.defaultProps = {

@@ -10,8 +10,8 @@ const ListItem = ({
   id,
   price,
 }) => (
-  <div className={styles.ListItem}>
-    <Link to={`/flat-page/${id}`}>
+  <div className={[styles.ListItem, `restore-${id}`].join(' ')}>
+    <Link to={{ pathname: `/flat-page/${id}`, state: id }}>
       <div className={styles.ListItem__infoDiv}>
         <div className={styles.ListItem__infoDiv_header}>
           <span className={styles.ListItem__infoDiv_header_title}>{title}</span>

@@ -52,13 +52,17 @@ class FlatPage extends PureComponent {
 
   render() {
     const { flatDescription, isInBookmarks } = this.state;
-    const { backAddress } = this.props;
+    const { backAddress, location } = this.props;
     return (
       (flatDescription)
         ? (
           <div className={styles.flatPage}>
             <div className={styles.flatPage__navigation}>
-              <Link to={backAddress}>
+              <Link to={{
+                pathname: `${backAddress}`,
+                state: location.state,
+              }}
+              >
                 <BackArrow title="back" />
               </Link>
               {(isInBookmarks)
@@ -138,6 +142,7 @@ FlatPage.propTypes = {
   removeBookmarkAction: PropTypes.func,
   match: PropTypes.shape({}).isRequired,
   backAddress: PropTypes.string,
+  location: PropTypes.shape({}).isRequired,
 };
 
 FlatPage.defaultProps = {
