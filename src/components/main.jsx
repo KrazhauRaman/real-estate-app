@@ -193,7 +193,7 @@ class Main extends PureComponent {
           <div className={styles.mainSearch__searchBlock}>
             <div className={styles.mainSearch__searchBlock_searchInputs}>
               <Search
-                placeholder="Enter city..."
+                placeholder="Enter city... (e.g. London)"
                 onChange={this.changeLocationHandler}
                 value={flatsLocation}
                 onKeyPress={this.enterKeyPressHandler}
